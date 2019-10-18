@@ -1,16 +1,14 @@
 #!/bin/sh
 NETWORK_SHARE_IP = 192.168.1.39
 SMB_SHARE_USERNAME = natha
-user = nathan
+
+apt install cifs-utils docker docker-compose -y
 
 # Mount SMB Network Shares
 mkdir /mnt/download
 mount -t cifs -o user=$SMB_SHARE_USERNAME //$NETWORK_SHARE_IP/Download /mnt/download
-mkdir ~/vpnconfig
-cp /mnt/download/nl-aes-128-cbc-udp-dns.ovpn ~/vpnconfig/
-
-apt install docker
-usermod -aG docker $user
+mkdir ~/vpnconfig/openvpn
+cp /mnt/download/nl-aes-128-cbc-udp-dns.ovpn ~/vpnconfig/openvpn
 
 cd docker-builds/download-only/
-docker-compose up
+docker-compose up -d

@@ -1,4 +1,4 @@
-version: "3.6"
+version: "3.3"
 services:
   qbittorrent:
     image: "markusmcnugen/qbittorrentvpn"
@@ -7,12 +7,12 @@ services:
     privileged: true
     environment:
       - "VPN_ENABLED=yes"
-      - "LAN_NETWORK=192.168.1.1/24"
-      - "NAME_SERVERS=1.1.1.1"
-      - "VIRTUAL_HOST=nathan-duckett.ddns.net"
-      - "VIRTUAL_PORT=8080"
-      - "TZ=Auckland/Oceania"
+      - "VPN_USERNAME=${vpn_user}"
+      - "VPN_PASSWORD=${vpn_password}"
+      - "LAN_NETWORK=192.168.1.0/24"
+      - "NAME_SERVERS=1.1.1.1,8.8.8.8"
     ports:
+      - 8080:8080
       - 8999:8999
       - 8999:8999/udp
     volumes:
