@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # Enable execution on all scripts required
 chmod +x ./ubuntu1804/install-dependencies.sh
 chmod +x ./mount-shares.sh
