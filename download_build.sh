@@ -10,5 +10,5 @@ mount -t cifs -o user=$SMB_SHARE_USERNAME //$NETWORK_SHARE_IP/Download /mnt/down
 mkdir ~/vpnconfig/openvpn
 cp /mnt/download/nl-aes-128-cbc-udp-dns.ovpn ~/vpnconfig/openvpn
 
-cd docker-builds/download-only/
+cd docker-builds/qBittorrent-only/
 docker-compose up -d
