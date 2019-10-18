@@ -5,7 +5,7 @@ mkdir script_auto_download/
 cd script_auto_download/
 
 # Download and install Sonarr
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493
 echo "deb http://apt.sonarr.tv/ master main" > /etc/apt/sources.list.d/sonarr.list
 apt install nzbdrone
 cat > sonarr.service << EOF
