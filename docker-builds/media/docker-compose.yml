@@ -1,0 +1,61 @@
+version: "3.3"
+services:
+  # Sonarr installation
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/sonarr:/config
+      - /mnt/videos/Television:/tv
+      - /mnt/download/qbittorrent/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  # Radarr installation
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/radarr:/config
+      - /mnt/videos/Movies:/movies
+      - /mnt/download/qbittorrent/downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  # Jackett installation
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/jackett:/config
+      - /mnt/download/qbittorrent/downloads:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+  # Plex installation
+  plex:
+    image: plexinc/pms-docker
+    container_name: plex
+    network: host
+    environment:
+      - TZ=Pacific/Auckland
+      - PLEX_CLAIM="claim-ieSBqw1QueZLjYY1BDxj"
+    volumes:
+      - ~/.media-config/plex:/config
+      - ~/.transcode/temp:/transcode
+      - /mnt/videos:/data
+    ports:
+      - 32400:32400
+    restart: unless-stopped
