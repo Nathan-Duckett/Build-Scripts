@@ -1,3 +1,6 @@
+## Docker Media Center Build
+## Requires Pre-requistes to be installed, and directories to exist before running
+## Assumed it was run using media-docker.sh to correctly preconfigure
 version: "3.3"
 services:
   # Sonarr installation
