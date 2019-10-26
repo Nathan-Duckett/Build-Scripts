@@ -5,7 +5,8 @@ if [ $EUID != 0 ]; then
     exit
 fi
 
-echo "Getting pre-requiste information"
+echo "Getting prerequisite information"
+read -p 'Default server username: ' USER_NAME
 read -p 'Network Share IP: ' NETWORK_SHARE_IP
 read -p 'Network Share Username: ' SMB_SHARE_USERNAME
 read -sp 'Network Share Password: ' SMB_SHARE_PASSWORD
@@ -30,8 +31,8 @@ mount -t cifs -o "user=$SMB_SHARE_USERNAME,password=$SMB_SHARE_PASSWORD" //$NETW
 mkdir /mnt/videos > /dev/null
 mount -t cifs -o "user=$SMB_SHARE_USERNAME,password=$SMB_SHARE_PASSWORD" //$NETWORK_SHARE_IP/Videos /mnt/videos > /dev/null
 
-echo "//$NETWORK_SHARE_IP/Download /mnt/download cifs credentials=/home/$USER/.smbcredentials,iocharset=utf8,sec=ntlm 0 0" >> /etc/fstab
-echo "//$NETWORK_SHARE_IP/Videos /mnt/videos cifs credentials=/home/$USER/.smbcredentials,iocharset=utf8,sec=ntlm 0 0" >> /etc/fstab
+echo "//$NETWORK_SHARE_IP/Download /mnt/download cifs credentials=/home/$USER_NAME/.smbcredentials,iocharset=utf8,sec=ntlm 0 0" >> /etc/fstab
+echo "//$NETWORK_SHARE_IP/Videos /mnt/videos cifs credentials=/home/$USER_NAME/.smbcredentials,iocharset=utf8,sec=ntlm 0 0" >> /etc/fstab
 
 
 # Create config folder locations
@@ -46,5 +47,6 @@ mkdir -p ~/.transcode/temp > /dev/null
 echo "Building Docker Containers"
 cd docker-builds/media/
 docker-compose up -d > /dev/null
+# TODO: Add docker launch containers on system startup
 
 echo "Installation Complete. Enjoy the server"
