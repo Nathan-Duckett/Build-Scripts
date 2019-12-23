@@ -29,9 +29,11 @@ a2ensite default-ssl
 a2dissite default
 
 # into config
+cat >> /etc/apache2/sites-enabled/000-default.conf << EOF
 SSLCACertificateFile /etc/ssl/certs/ca.cer
 SSLCertificateFile    /etc/ssl/certs/server.crt
 SSLCertificateKeyFile /etc/ssl/private/server.key
+EOF
 
 service apache2 restart
 
