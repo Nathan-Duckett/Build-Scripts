@@ -1,5 +1,5 @@
 ## Docker Media Center Build
-## Requires Pre-requistes to be installed, and directories to exist before running
+## Requires prerequisite to be installed, and directories to exist before running
 ## Assumed it was run using media-docker.sh to correctly preconfigure
 version: "3.3"
 services:
@@ -46,19 +46,4 @@ services:
       - /mnt/download/qbittorrent/downloads:/downloads
     ports:
       - 9117:9117
-    restart: unless-stopped
-  # Plex installation
-  plex:
-    image: plexinc/pms-docker
-    container_name: plex
-    network_mode: host
-    environment:
-      - TZ=Pacific/Auckland
-      - PLEX_CLAIM="claim-ieSBqw1QueZLjYY1BDxj"
-    volumes:
-      - ~/.media-config/plex:/config
-      - ~/.transcode/temp:/transcode
-      - /mnt/videos:/data
-    ports:
-      - 32400:32400
     restart: unless-stopped

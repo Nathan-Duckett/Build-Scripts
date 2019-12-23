@@ -20,8 +20,8 @@ sudo ./media_build.sh
 This script requires that you have sudo access to run. You must also fill in the required samba share password to connect the videos directory.
 
 ### Media Client (Docker)
-This installation will install all of the software inside containers on the system.
-This installs the same software as the normal media client but all within docker.
+This installation will install all of the software inside containers on the system. This system is designed to handle managing tv shows and movies on the system with automated downloading. (Requires external download client and media server)
+This installs the same software (excluding plex) as the normal media client but all within docker.
 
 To install the client use:
 ```sh
@@ -36,4 +36,13 @@ To install the client use:
 ```sh
 sudo chmod +x download_build.sh
 sudo ./download_build.sh
+```
+
+### Full Server
+This will install all services required on the server. This includes plex, sonarr, radarr, jackett, and qBittorrent. These are all hosted within docker containers.
+
+To install this client use:
+```sh
+sudo chmod +x full_server.sh
+sudo ./full_server.sh
 ```
