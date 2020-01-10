@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  # Tautulli installation
+  tautulli:
+    image: linuxserver/tautulli
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/tautulli:/config
+      - /var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/logs
+    ports:
+      - 8181:8181
+    restart: unless-stopped

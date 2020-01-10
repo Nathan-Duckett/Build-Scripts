@@ -5,6 +5,8 @@ if [ $EUID != 0]; then
     exit 1
 fi
 
+apt install fuse -qq
+
 cd
 wget https://github.com/dweidenfeld/plexdrive/releases/download/5.0.0/plexdrive-linux-amd64
 mv plexdrive-linux-amd64 plexdrive

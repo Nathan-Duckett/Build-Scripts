@@ -1,0 +1,48 @@
+## Docker Media Center Build
+## Requires prerequisite to be installed, and directories to exist before running
+## Assumed it was run using media-docker.sh to correctly preconfigure
+version: "3.3"
+services:
+  # Sonarr installation
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/sonarr:/config
+      - /mnt/videos/Television:/tv
+      - /mnt/download/qbittorrent/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  # Radarr installation
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/radarr:/config
+      - /mnt/videos/Movies:/movies
+      - /mnt/download/qbittorrent/downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  # Ombi installation
+  ombi:
+    image: linuxserver/ombi
+    container_name: ombi
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/ombi:/config
+    ports:
+      - 3579:3579
+    restart: unless-stopped  

@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  # Jackett installation
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/jackett:/config
+      - /mnt/download/qbittorrent/downloads:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
