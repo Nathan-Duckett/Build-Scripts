@@ -14,8 +14,8 @@ chmod 755 /usr/bin/plexdrive
 mkdir /mnt/gdrive
 
 #Run manually to setup connections to follow the prompts
+echo "When credentials are added you must CTRL^C out to stop application"
 plexdrive mount -c /root/.plexdrive -o allow_other /mnt/gdrive
-# When credentials are added you must CTRL^C out to stop application
 
 cat > /lib/systemd/system/plexdrive.service << EOF
 [Unit]
