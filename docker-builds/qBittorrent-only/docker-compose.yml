@@ -15,4 +15,4 @@ services:
       - 8999:8999/udp
     volumes:
       - "~/vpnconfig:/config:cached"
-      - "/mnt/download/qbittorrent/downloads:/downloads:cached"
+      - "/mnt/downloads:/downloads:cached"

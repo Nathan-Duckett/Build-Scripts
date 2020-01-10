@@ -6,13 +6,24 @@ if [ $EUID != 0 ]; then
 fi
 
 apt update -qq && apt upgrade -y -qq
+apt install samba
 apt install docker docker-compose -y -qq
 
 # Jump back to root
 cd ..
 
-# Add Gdrive mount
-bash mount-gdrive-plex.sh
+mkdir -p /mnt/downloads
+
+cat >> /etc/samba/smb.conf << EOF
+[downloads]
+    path = /mnt/downloads
+    read only = no
+    browsable = yes
+    guest ok = no
+EOF
+
+service smbd restart
+smbpasswd -a $USER
 
 # Create config folder locations
 mkdir -p ~/.media-config/qbittorrent > /dev/null
