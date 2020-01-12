@@ -1,4 +1,4 @@
-#!/bin/sh
+#/bin/sh
 
 ### README:
 ### When using this script for a WSL instance or to access on windows you must
@@ -7,9 +7,11 @@
 ### git clone https://github.com/powerline/fonts.git then .\install.ps1
 
 
-apt install zsh git fonts-powerline
+sudo apt install zsh git fonts-powerline
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+touch ~/.aliases
 
 curl https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark --output ~/.dircolors
 cat >> ~/.zshrc << EOF
