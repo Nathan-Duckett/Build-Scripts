@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $EUID != 0]; then
+if [ $EUID != 0 ]; then
     echo "Script must be run as root user"
     exit 1
 fi
@@ -37,4 +37,4 @@ EOF
 
 systemctl daemon-reload
 systemctl start plexdrive.service
-systemdtl enable plexdrive.service
+systemctl enable plexdrive.service
