@@ -21,9 +21,9 @@ mount -t cifs -o user=$SMB_SHARE_USERNAME //$NETWORK_SHARE_IP/Download /mnt/down
 # Create config folder locations
 mkdir -p ~/.media-config/qBittorrent/openvpn/ > /dev/null
 # Copy credentials to configuration location
-cp /mnt/download/nl-aes-128-cbc-udp-dns.ovpn ~/vpnconfig/openvpn/ > /dev/null
-cp /mnt/download/pia_creds.txt ~/vpnconfig/openvpn/ > /dev/null
+cp /mnt/download/nl-aes-128-cbc-udp-dns.ovpn ~/.media-config/qBittorrent/openvpn/> /dev/null
+cp /mnt/download/pia_creds.txt ~/.media-config/qBittorrent/openvpn/ > /dev/null
 
 # Deploy all docker containers
-cd docker-builds/qbittorrent-only/
+cd docker-builds/qBittorrent-only/
 docker-compose up -d
