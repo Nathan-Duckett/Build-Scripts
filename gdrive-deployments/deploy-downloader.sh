@@ -5,28 +5,22 @@ if [ $EUID != 0 ]; then
     exit 1
 fi
 
-apt update -qq && apt upgrade -y -qq
-apt install samba
-apt install docker docker-compose -y -qq
+read -p 'Network Share IP: ' NETWORK_SHARE_IP
+read -p 'Network Share Username: ' SMB_SHARE_USERNAME
 
-# Jump back to root
-cd ..
+echo "Installing Dependencies"
+apt update -qq && apt upgrade -y -qq > /dev/null
+apt install cifs-utils docker docker-compose -y -qq > /dev/null
 
-mkdir -p /mnt/downloads
 
-cat >> /etc/samba/smb.conf << EOF
-[downloads]
-    path = /mnt/downloads
-    read only = no
-    browsable = yes
-    guest ok = no
-EOF
-
-service smbd restart
-smbpasswd -a $USER
+mkdir /mnt/download > /dev/null
+mount -t cifs -o user=$SMB_SHARE_USERNAME //$NETWORK_SHARE_IP/Download /mnt/download
 
 # Create config folder locations
-mkdir -p ~/.media-config/qbittorrent > /dev/null
+mkdir -p ~/.media-config/qBittorrent/openvpn/ > /dev/null
+# Copy credentials to configuration location
+cp /mnt/download/nl-aes-128-cbc-udp-dns.ovpn ~/vpnconfig/openvpn/ > /dev/null
+cp /mnt/download/pia_creds.txt ~/vpnconfig/openvpn/ > /dev/null
 
 # Deploy all docker containers
 cd docker-builds/qbittorrent-only/
