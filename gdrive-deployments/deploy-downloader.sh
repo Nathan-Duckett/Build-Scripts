@@ -12,6 +12,8 @@ echo "Installing Dependencies"
 apt update -qq && apt upgrade -y -qq > /dev/null
 apt install cifs-utils docker docker-compose -y -qq > /dev/null
 
+# Move back to root directory
+cd ..
 
 mkdir /mnt/download > /dev/null
 mount -t cifs -o user=$SMB_SHARE_USERNAME //$NETWORK_SHARE_IP/Download /mnt/download
