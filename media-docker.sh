@@ -46,6 +46,9 @@ mkdir ~/.media-config/sonarr/ > /dev/null
 mkdir ~/.media-config/radarr/ > /dev/null
 mkdir ~/.media-config/jackett/ > /dev/null
 
+# Add user permissions to user 'nathan' use docker
+usermod -aG docker nathan
+
 echo "Building Docker Containers"
 # Build media download docker containers
 cd docker-builds/media/

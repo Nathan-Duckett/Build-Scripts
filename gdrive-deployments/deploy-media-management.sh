@@ -27,6 +27,9 @@ mkdir -p ~/.media-config/sonarr/
 mkdir ~/.media-config/radarr/
 mkdir ~/.media-config/ombi/
 
+# Add user permissions to user 'nathan' use docker
+usermod -aG docker nathan
+
 # Deploy all docker containers
 cd docker-builds/media-management/
 docker-compose up -d

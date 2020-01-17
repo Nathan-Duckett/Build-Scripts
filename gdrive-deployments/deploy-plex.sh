@@ -20,6 +20,9 @@ bash ubuntu1804/media/install-plex.sh
 # Create config folder locations
 mkdir -p ~/.media-config/tautulli/
 
+# Add user permissions to user 'nathan' use docker
+usermod -aG docker nathan
+
 # Create and launch Tautulli
 cd docker-builds/tautulli/
 docker-compose up -d

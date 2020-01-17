@@ -26,6 +26,9 @@ mkdir -p ~/.media-config/qBittorrent/openvpn/ > /dev/null
 cp /mnt/download/nl-aes-128-cbc-udp-dns.ovpn ~/.media-config/qBittorrent/openvpn/> /dev/null
 cp /mnt/download/pia_creds.txt ~/.media-config/qBittorrent/openvpn/ > /dev/null
 
+# Add user permissions to user 'nathan' use docker
+usermod -aG docker nathan
+
 # Deploy all docker containers
 cd docker-builds/qBittorrent-only/
 docker-compose up -d

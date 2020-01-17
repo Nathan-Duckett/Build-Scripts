@@ -14,6 +14,9 @@ cd ..
 # Create config folder locations
 mkdir -p ~/.media-config/jackett > /dev/null
 
+# Add user permissions to user 'nathan' use docker
+usermod -aG docker nathan
+
 # Deploy all docker containers
 cd docker-builds/jackett-only/
 docker-compose up -d
