@@ -1,4 +1,5 @@
 #!/bin/bash
+apt install unzip
 
 # Download latest copy of rclone
 curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip

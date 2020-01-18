@@ -13,7 +13,7 @@ services:
       - TZ=Pacific/Auckland
     volumes:
       - ~/.media-config/sonarr:/config
-      - /mnt/videos/Television:/tv
+      - /home/plex/fuse-tv:/tv
       - /mnt/download/qbittorrent/downloads:/downloads
     ports:
       - 8989:8989
@@ -28,7 +28,7 @@ services:
       - TZ=Pacific/Auckland
     volumes:
       - ~/.media-config/radarr:/config
-      - /mnt/videos/Movies:/movies
+      - /home/plex/fuse-m:/movies
       - /mnt/download/qbittorrent/downloads:/downloads
     ports:
       - 7878:7878
