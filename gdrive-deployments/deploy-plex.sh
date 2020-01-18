@@ -24,5 +24,5 @@ mkdir -p ~/.media-config/tautulli/
 usermod -aG docker nathan
 
 # Create and launch Tautulli
-cd docker-builds/tautulli/
+cd docker-builds/tautulli-only/
 docker-compose up -d
