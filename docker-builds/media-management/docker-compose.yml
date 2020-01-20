@@ -14,7 +14,7 @@ services:
     volumes:
       - ~/.media-config/sonarr:/config
       - /home/plex/fuse-tv:/tv
-      - /mnt/download/qbittorrent/downloads:/downloads
+      - /mnt/downloads:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -29,7 +29,7 @@ services:
     volumes:
       - ~/.media-config/radarr:/config
       - /home/plex/fuse-m:/movies
-      - /mnt/download/qbittorrent/downloads:/downloads
+      - /mnt/downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
