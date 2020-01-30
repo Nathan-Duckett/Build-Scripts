@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check root privilege
+if [ $EUID != 0 ]; then
+    echo "You must run this as root"
+    exit
+fi
+
 # Variable Definitions
 echo "Getting prerequisite information"
 read -p 'Default server username: ' USER_NAME
@@ -14,9 +20,28 @@ apt upgrade -yqq
 # Install dependencies
 apt install cifs-utils docker docker-compose -yqq
 
+cat > ~/.smbcredentials << EOF
+username=$SMB_SHARE_USERNAME
+passsword=$SMB_SHARE_PASSWORD
+EOF
+chmod 600 ~/.smbcredentials
+
 # Mount network shares
-mkdir /mnt/videos
-mount -t cifs -o user=$SMB_SHARE_USERNAME //$NETWORK_SHARE_IP/Videos /mnt/videos
+mkdir /mnt/media-movies
+mkdir /mnt/media-television
+mkdir /mnt/lacie-movies
+mkdir /mnt/lacie-television
+
+mount -t cifs -o "user=$SMB_SHARE_USERNAME,password=$SMB_SHARE_PASSWORD" //$NETWORK_SHARE_IP/Media-Movies /mnt/media-movies
+mount -t cifs -o "user=$SMB_SHARE_USERNAME,password=$SMB_SHARE_PASSWORD" //$NETWORK_SHARE_IP/Media-Television /mnt/media-television
+mount -t cifs -o "user=$SMB_SHARE_USERNAME,password=$SMB_SHARE_PASSWORD" //$NETWORK_SHARE_IP/LaCie-Movies /mnt/lacie-movies
+mount -t cifs -o "user=$SMB_SHARE_USERNAME,password=$SMB_SHARE_PASSWORD" //$NETWORK_SHARE_IP/LaCie-Television /mnt/lacie-television
+
+# Add network shares to boot
+echo "//$NETWORK_SHARE_IP/Media-Movies /mnt/media-movies cifs credentials=/home/$USER_NAME/.smbcredentials,iocharset=utf8,sec=ntlm 0 0" >> /etc/fstab
+echo "//$NETWORK_SHARE_IP/Media-Movies /mnt/media-television cifs credentials=/home/$USER_NAME/.smbcredentials,iocharset=utf8,sec=ntlm 0 0" >> /etc/fstab
+echo "//$NETWORK_SHARE_IP/LaCie-Movies /mnt/lacie-movies cifs credentials=/home/$USER_NAME/.smbcredentials,iocharset=utf8,sec=ntlm 0 0" >> /etc/fstab
+echo "//$NETWORK_SHARE_IP/LaCie-Television /mnt/lacie-television cifs credentials=/home/$USER_NAME/.smbcredentials,iocharset=utf8,sec=ntlm 0 >> /etc/fstab
 
 # Make config locations
 mkdir /home/$USER_NAME/.media-config/ > /dev/null
