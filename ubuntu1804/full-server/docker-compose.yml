@@ -1,0 +1,90 @@
+version: "3.3"
+services:
+  # Sonarr installation
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/sonarr:/config
+      - /home/plex/fuse-tv:/tv
+      - /mnt/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  # Radarr installation
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/radarr:/config
+      - /home/plex/fuse-m:/movies
+      - /mnt/downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  # Ombi installation
+  ombi:
+    image: linuxserver/ombi
+    container_name: ombi
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/ombi:/config
+    ports:
+      - 3579:3579
+    restart: unless-stopped
+  # Jackett installation
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/jackett:/config
+      - /mnt/download/qbittorrent/downloads:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+  # Tautulli installation
+  tautulli:
+    image: linuxserver/tautulli
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ~/.media-config/tautulli:/config
+      - /var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/logs
+    ports:
+      - 8181:8181
+    restart: unless-stopped
+  # qBittorrent VPN installation
+  qbittorrent:
+    image: "markusmcnugen/qbittorrentvpn"
+    container_name: "qbittorrent"
+    restart: "unless-stopped"
+    privileged: true
+    environment:
+      - "VPN_ENABLED=yes"
+      - "LAN_NETWORK=192.168.1.0/24"
+      - "NAME_SERVERS=1.1.1.1,8.8.8.8"
+    ports:
+      - 8080:8080
+      - 8999:8999
+      - 8999:8999/udp
+    volumes:
+      - "~/.media-config/qBittorrent:/config:cached"
+      - "/mnt/downloads:/downloads:cached"
