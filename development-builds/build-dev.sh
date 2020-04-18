@@ -74,8 +74,8 @@ function install_language_support () {
 }
 
 function install_eclipse () {
-    wget "http://mirror.internode.on.net/pub/eclipse/technology/epp/downloads/release/$ECLIPSE_VERSION/R/eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz"
-    tar xvf eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz
+    wget "http://mirror.internode.on.net/pub/eclipse/technology/epp/downloads/release/$ECLIPSE_VERSION/R/eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz" > /dev/null
+    tar xvf eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz > /dev/null
     rm -rf eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz
 
     # Move eclipse to personal .apps folder
@@ -100,7 +100,7 @@ EOF
 
 function install_vscode () {
     # Assumption that vscode is based permanently off this link (unsure of that)
-    wget "https://go.microsoft.com/fwlink/?LinkID=760868"
+    wget "https://go.microsoft.com/fwlink/?LinkID=760868" -o code.deb
 
     $CODE_FILENAME=$(ls | grep code)
     sudo apt install ./$CODE_FILENAME
@@ -129,9 +129,9 @@ function install_docker () {
     gnupg-agent \
     software-properties-common -yqq > /dev/null
 
-    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo apt-get update -qq > /dev/null
     sudo apt-get install docker-ce docker-ce-cli containerd.io -yqq > /dev/null
 
@@ -139,11 +139,6 @@ function install_docker () {
     sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-    $VERSION_OUTPUT=$(docker-compose --version)
-
-    if [ "$VERSION_OUTPUT" == "" ]; then
-        echo "Docker-compose installation was unsuccessful"
-    fi
 
     # Add bash completion
     sudo curl -L https://raw.githubusercontent.com/docker/compose/1.25.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
