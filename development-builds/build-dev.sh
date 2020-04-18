@@ -100,7 +100,7 @@ EOF
 
 function install_vscode () {
     # Assumption that vscode is based permanently off this link (unsure of that)
-    wget "https://go.microsoft.com/fwlink/?LinkID=760868" -o code.deb
+    wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O code.deb
 
     CODE_FILENAME=$(ls | grep code)
     sudo apt install ./$CODE_FILENAME
