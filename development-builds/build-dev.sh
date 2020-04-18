@@ -54,36 +54,36 @@ function get_params () {
 }
 
 function update_system () {
-    sudo apt update -qq *> /dev/null
-    sudo apt upgrade -yqq *> /dev/null
+    sudo apt update -qq >/dev/null 2>/dev/null
+    sudo apt upgrade -yqq >/dev/null 2>/dev/null
 }
 
 function install_language_support () {
     # Utility installation
-    sudo apt install git wget curl -yqq *> /dev/null
+    sudo apt install git wget curl -yqq >/dev/null 2>/dev/null
 
     # Java support based on provided version
-    sudo apt install openjdk-$JAVA_VERSION-jdk maven -yqq *> /dev/null
+    sudo apt install openjdk-$JAVA_VERSION-jdk maven -yqq >/dev/null 2>/dev/null
 
     # Python support based on provided version
-    sudo apt install python$PYTHON_VERSION -yqq *> /dev/null
+    sudo apt install python$PYTHON_VERSION -yqq >/dev/null 2>/dev/null
 
     # Node.js support based on provided version
-    curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
-    sudo apt install -yqq nodejs *> /dev/null
+    curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash - >/dev/null
+    sudo apt install -yqq nodejs >/dev/null 2>/dev/null
 
     # Adding C/C++ and Ruby support
-    sudo apt install gcc gpp make ruby -yqq *> /dev/null
+    sudo apt install gcc gpp make ruby -yqq >/dev/null 2>/dev/null
 }
 
 function install_eclipse () {
-    wget "http://mirror.internode.on.net/pub/eclipse/technology/epp/downloads/release/$ECLIPSE_VERSION/R/eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz" > /dev/null
+    wget -q "http://mirror.internode.on.net/pub/eclipse/technology/epp/downloads/release/$ECLIPSE_VERSION/R/eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz" > /dev/null
     tar xvf eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz > /dev/null
     rm -rf eclipse-java-$ECLIPSE_VERSION-R-linux-gtk-x86_64.tar.gz
 
     # Move eclipse to personal .apps folder
     mkdir $HOME/.apps/
-    mv eclipse $HOME/.apps/
+    mv eclipse/ $HOME/.apps/
 
     # Create desktop shortcut
     cat > $HOME/Desktop/Eclipse.desktop << EOF
@@ -103,10 +103,10 @@ EOF
 
 function install_vscode () {
     # Assumption that vscode is based permanently off this link (unsure of that)
-    wget "https://go.microsoft.com/fwlink/?LinkID=760868" -O code.deb
+    wget -q "https://go.microsoft.com/fwlink/?LinkID=760868" -O code.deb >/dev/null
 
     CODE_FILENAME=$(ls | grep code)
-    sudo apt install ./$CODE_FILENAME
+    sudo apt install ./$CODE_FILENAME -yqq >/dev/null 2>/dev/null
     rm -rf $CODE_FILENAME
 
     cat > $HOME/Desktop/VSCode.desktop << EOF
@@ -130,21 +130,21 @@ function install_docker () {
     ca-certificates \
     curl \
     gnupg-agent \
-    software-properties-common -yqq *> /dev/null
+    software-properties-common -yqq >/dev/null 2>/dev/null
 
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    sudo apt-get update -qq *> /dev/null
-    sudo apt-get install docker-ce docker-ce-cli containerd.io -yqq *> /dev/null
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -yqq >/dev/null 2>/dev/null
+    sudo apt-get update -qq >/dev/null 2>/dev/null
+    sudo apt-get install docker-ce docker-ce-cli containerd.io -yqq >/dev/null 2>/dev/null
 
     # Installing docker-compose
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo curl -s -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose > /dev/null
     sudo chmod +x /usr/local/bin/docker-compose
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
     # Add bash completion
-    sudo curl -L https://raw.githubusercontent.com/docker/compose/1.25.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+    sudo curl -s -L https://raw.githubusercontent.com/docker/compose/1.25.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose >/dev/null
 }
 
 function print_green () {
