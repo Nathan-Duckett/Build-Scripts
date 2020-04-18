@@ -46,3 +46,11 @@ To install this client use:
 sudo chmod +x full_server.sh
 sudo ./full_server.sh
 ```
+
+### Developer Build
+
+Run this command:
+```sh
+wget -O - "https://raw.githubusercontent.com/Nathan-Duckett/Build-Scripts/master/development-builds/build-dev.sh" | bash
+```
+This will automatically install and configure all of the required software for a developer build.
