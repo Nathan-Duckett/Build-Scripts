@@ -35,6 +35,10 @@ function get_params () {
         NODE_VERSION=$2
         shift 2
         ;;
+        -vm|--virtual-machine)
+        VM="true"
+        shift
+        ;;
         --) # end argument parsing
         shift
         break
@@ -147,6 +151,11 @@ function install_docker () {
     sudo curl -s -L https://raw.githubusercontent.com/docker/compose/1.25.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose >/dev/null
 }
 
+function check_install_vm () {
+    print_green "==> Installing VM Guest Additions"
+    sudo apt install virtualbox-guest-x11 -yqq >/dev/null 2>/dev/null
+}
+
 function print_green () {
     echo -e '\e[32m'
     echo "$1"
@@ -178,7 +187,7 @@ fi
 # Begin Script contents
 # =====================================
 
-get_params
+get_params $@
 print_green "==> Updating the System"
 update_system
 print_green "==> Installing Applications"
@@ -190,3 +199,6 @@ print_green "--==> Installing Eclipse IDE"
 install_eclipse
 print_green "--==> Installing VSCode"
 install_vscode
+if [ "$VM" == "true" ]; then
+    check_install_vm
+fi
