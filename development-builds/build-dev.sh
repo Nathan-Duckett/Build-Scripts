@@ -54,23 +54,26 @@ function get_params () {
 }
 
 function update_system () {
-    sudo apt update -qq > /dev/null
-    sudo apt upgrade -yqq > /dev/null
+    sudo apt update -qq *> /dev/null
+    sudo apt upgrade -yqq *> /dev/null
 }
 
 function install_language_support () {
+    # Utility installation
+    sudo apt install git wget curl -yqq *> /dev/null
+
     # Java support based on provided version
-    sudo apt install openjdk-$JAVA_VERSION-jdk maven -yqq > /dev/null
+    sudo apt install openjdk-$JAVA_VERSION-jdk maven -yqq *> /dev/null
 
     # Python support based on provided version
-    sudo apt install python$PYTHON_VERSION -yqq > /dev/null
+    sudo apt install python$PYTHON_VERSION -yqq *> /dev/null
 
     # Node.js support based on provided version
     curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
-    sudo apt install -yqq nodejs > /dev/null
+    sudo apt install -yqq nodejs *> /dev/null
 
     # Adding C/C++ and Ruby support
-    sudo apt install gcc gpp make ruby -yqq > /dev/null
+    sudo apt install gcc gpp make ruby -yqq *> /dev/null
 }
 
 function install_eclipse () {
@@ -127,13 +130,13 @@ function install_docker () {
     ca-certificates \
     curl \
     gnupg-agent \
-    software-properties-common -yqq > /dev/null
+    software-properties-common -yqq *> /dev/null
 
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    sudo apt-get update -qq > /dev/null
-    sudo apt-get install docker-ce docker-ce-cli containerd.io -yqq > /dev/null
+    sudo apt-get update -qq *> /dev/null
+    sudo apt-get install docker-ce docker-ce-cli containerd.io -yqq *> /dev/null
 
     # Installing docker-compose
     sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -144,6 +147,17 @@ function install_docker () {
     sudo curl -L https://raw.githubusercontent.com/docker/compose/1.25.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 }
 
+function print_green () {
+    echo -e '\e[32m'
+    echo "$1"
+    echo -e '\e[0m'
+}
+
+function print_red () {
+    echo -e '\e[31m'
+    echo "$1"
+    echo -e '\e[0m'
+}
 
 # =====================================
 # Check values exist otherwise set them
@@ -165,8 +179,14 @@ fi
 # =====================================
 
 get_params
+print_green "==> Updating the System"
 update_system
+print_green "==> Installing Applications"
+print_green "--==> Installing programming language support"
 install_language_support
+print_green "--==> Installing docker support"
 install_docker
+print_green "--==> Installing Eclipse IDE"
 install_eclipse
+print_green "--==> Installing VSCode"
 install_vscode
