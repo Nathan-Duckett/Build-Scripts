@@ -105,6 +105,18 @@ EOF
     sudo chmod +x $HOME/Desktop/Eclipse.desktop
 }
 
+function install_scene_builder () {
+    wget -q https://gluonhq.com/products/scene-builder/thanks/?dl=/download/scene-builder-linux-deb/ -O scene_builder.deb >/dev/null
+    sudo apt install ./scene_builder.deb -yqq >/dev/null 2>/dev/null
+    rm scene_builder.deb
+}
+
+function install_netbeans () {
+    wget -q https://apache.inspire.net.nz/netbeans/netbeans/11.3/Apache-NetBeans-11.3-bin-linux-x64.sh -O netbeans.sh >/dev/null
+    bash netbeans.sh >/dev/null
+    rm netbeans.sh
+}
+
 function install_vscode () {
     # Assumption that vscode is based permanently off this link (unsure of that)
     wget -q "https://go.microsoft.com/fwlink/?LinkID=760868" -O code.deb >/dev/null
@@ -197,6 +209,10 @@ print_green "--==> Installing docker support"
 install_docker
 print_green "--==> Installing Eclipse IDE"
 install_eclipse
+print_green "--==> Installing Scene Builder"
+install_scene_builder
+print_green "--==> Installing Netbeans IDE"
+install_netbeans
 print_green "--==> Installing VSCode"
 install_vscode
 if [ "$VM" == "true" ]; then
