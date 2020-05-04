@@ -35,8 +35,8 @@ function get_params () {
         NODE_VERSION=$2
         shift 2
         ;;
-        -vm|--virtual-machine)
-        VM="true"
+        -no-vm|--no-virtual-machine)
+        NO_VM="true"
         shift
         ;;
         --) # end argument parsing
@@ -215,6 +215,7 @@ print_green "--==> Installing Netbeans IDE"
 install_netbeans
 print_green "--==> Installing VSCode"
 install_vscode
-if [ "$VM" == "true" ]; then
+# Check if not VM to skip Vbox Additions, otherwise install
+if [ "$NO_VM" == "false" ]; then
     check_install_vm
 fi
