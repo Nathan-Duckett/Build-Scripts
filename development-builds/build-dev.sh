@@ -109,6 +109,7 @@ function install_scene_builder () {
     wget -q https://gluonhq.com/products/scene-builder/thanks/?dl=/download/scene-builder-linux-deb/ -O scene_builder.deb >/dev/null
     sudo apt install ./scene_builder.deb -yqq >/dev/null 2>/dev/null
     rm scene_builder.deb
+    cp /etc/scenebuilder/scenebuilder.desktop ~/Desktop/
 }
 
 function install_netbeans () {
