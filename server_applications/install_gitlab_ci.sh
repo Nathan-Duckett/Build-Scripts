@@ -15,4 +15,4 @@ sudo gitlab-runner register \
   --tag-list "shell,java,python" \
   --run-untagged="true" \
   --locked="true" \
-  --access-level="protected"
+  --access-level="not_protected"
