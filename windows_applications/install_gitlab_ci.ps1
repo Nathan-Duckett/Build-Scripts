@@ -12,7 +12,7 @@ $TOKEN=$args[1]
 mkdir C:\Gitlab-Runner
 cd C:\Gitlab-Runner
 # Download and install Gitlab runner
-https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-amd64.exe
+wget https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-amd64.exe # TODO: Verify this is working as expected WGET doesn't seem to work
 mv gitlab-runner-windows-amd64.exe gitlab-runner.exe
 .\gitlab-runner.exe install
 .\gitlab-runner.exe start
