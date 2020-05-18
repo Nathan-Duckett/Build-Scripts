@@ -1,0 +1,7 @@
+version: "3.3"
+services:
+  plantuml:
+    container_name: plantuml_server
+    image: plantuml/plantuml-server:tomcat
+    ports:
+      - 5001:8080
