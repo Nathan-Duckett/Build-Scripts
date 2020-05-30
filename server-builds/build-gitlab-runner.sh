@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$#" -ne 2 ]; then
+    echo "Incorrect usage; Should be: build-gitlab-runner.sh <url> <token> <user_pass>"
+    exit 1
+fi
+
 # Install required software
 sudo apt update -qq
 sudo apt upgrade -yqq
@@ -9,11 +14,6 @@ sudo apt install openjdk-11-jdk git maven -yqq
 bash ../development-builds/install-infer.sh
 
 # Extracted from server_applications/install_gitlab_ci.sh
-
-if [ "$#" -ne 2 ]; then
-    echo "Incorrect usage; Should be: build-gitlab-runner.sh <url> <token> <user_pass>"
-    exit 1
-fi
 
 URL="$1"
 TOKEN="$2"
