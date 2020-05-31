@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 3 ]; then
     echo "Incorrect usage; Should be: build-gitlab-runner.sh <url> <token> <user_pass>"
     exit 1
 fi
