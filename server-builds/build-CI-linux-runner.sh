@@ -12,7 +12,10 @@ TOKEN="$2"
 
 sudo apt update && sudo apt upgrade -y
 
-sudo apt install openjdk-11-jdk maven curl htop -y
+sudo apt install openjdk-11-jdk maven git curl htop -y
+
+# Workaround to require no ssl on git repos
+git config --global http.sslverify false
 
 CI_PWD="/home/nathan/GitlabCI"
 
@@ -37,6 +40,10 @@ sudo gitlab-runner register \
   --access-level="not_protected"
 
 # Install as a service and start
+sudo gitlab-runner uninstall
 sudo gitlab-runner install --user "nathan" --working-directory "$CI_PWD"
 
 sudo gitlab-runner start
+
+# Restart just in case didn't correctly register.
+sudo gitlab-runner restart
