@@ -12,7 +12,7 @@ TOKEN="$2"
 
 sudo apt update && sudo apt upgrade -y
 
-sudo apt install openjdk-11-jdk maven -y
+sudo apt install openjdk-11-jdk maven curl htop -y
 
 CI_PWD="/home/nathan/GitlabCI"
 
