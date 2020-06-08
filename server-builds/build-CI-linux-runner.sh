@@ -14,7 +14,7 @@ PROJECT_ID="$4"
 
 sudo apt update && sudo apt upgrade -y
 
-sudo apt install openjdk-11-jdk maven git curl htop -y
+sudo apt install openjdk-11-jdk maven git curl htop python3-pip -y
 
 # Workaround to require no ssl on git repos
 git config --global http.sslverify false
@@ -63,6 +63,7 @@ PersonalAccessToken = $PAT
 [PROJECT]
 ID = $PROJECT_ID
 SprintMilestonePrefix = Sprint
+LabTimeWikiSlug = Lab-time-log
 EOF
 
 # Gitlab-Wiki-Uploader to post this information into the wiki
@@ -75,9 +76,13 @@ projectID: $PROJECT_ID
 wikiSlug: Time-Tracking-by-Team-Member
 EOF
 
+# Install dependencies
+pip3 install -r $HOME/GitlabTimeCounter/requirements.txt
+pip3 install -r $HOME/Gitlab-Wiki-Updater/requirements.txt
+
 # https://stackoverflow.com/questions/4880290/how-do-i-create-a-crontab-through-a-script
 # Set to run at midnight nightly
-(crontab -l 2>/dev/null; echo "0 0 * * * python3 $HOME/GitlabTimeCounter/TimeCounter.py | $HOME/Gitlab-Wiki-Updater/upload.py") | crontab -
+(crontab -l 2>/dev/null; echo "0 0 * * * python3 $HOME/GitlabTimeCounter/TimeCounter.py | python3 $HOME/Gitlab-Wiki-Updater/upload.py") | crontab -
 
 # Run upload lab times now
-python3 $HOME/GitlabTimeCounter/TimeCounter.py | $HOME/Gitlab-Wiki-Updater/upload.py
+python3 $HOME/GitlabTimeCounter/TimeCounter.py | python3 $HOME/Gitlab-Wiki-Updater/upload.py
