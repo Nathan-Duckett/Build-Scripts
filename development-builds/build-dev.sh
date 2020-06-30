@@ -140,7 +140,13 @@ EOF
     sudo chmod +x $HOME/Desktop/VSCode.desktop
 }
 
-function install_docker () {
+function install_docker_deprecated () {
+    ###
+    ### This code was deprecated on 30/06/2020 as support for Ubuntu 20.04 machines can be replaced
+    ### with package installation as shown in install_docker. This code is for historical purposes
+    ### on machines <20.04 (e.g. 18.04LTS)
+    ###
+
     # Installing normal docker
     sudo apt-get install \
     apt-transport-https \
@@ -154,6 +160,20 @@ function install_docker () {
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -yqq >/dev/null 2>/dev/null
     sudo apt-get update -qq >/dev/null 2>/dev/null
     sudo apt-get install docker-ce docker-ce-cli containerd.io -yqq >/dev/null 2>/dev/null
+
+    # Installing docker-compose
+    sudo curl -s -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose > /dev/null
+    sudo chmod +x /usr/local/bin/docker-compose
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+    # Add bash completion
+    sudo curl -s -L https://raw.githubusercontent.com/docker/compose/1.25.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose >/dev/null
+}
+
+function install_docker() {
+
+    # Installing normal docker
+    sudo apt install docker.io -y
 
     # Installing docker-compose
     sudo curl -s -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose > /dev/null
