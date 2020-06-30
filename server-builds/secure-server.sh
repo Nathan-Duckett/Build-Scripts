@@ -14,7 +14,7 @@ SUBNET="10.0.0.0/8"
 function install_fail2ban_ssh () {
     sudo apt install fail2ban -y
 
-    cat << EOF | sudo tee /etc/fail2ban/jail.conf
+    cat << EOF | sudo tee /etc/fail2ban/jail.local
 [DEFAULT]
 # the IP address range we want to ignore
 ignoreip = 127.0.0.1/8 $SUBNET
