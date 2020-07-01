@@ -1,5 +1,5 @@
 # Build-Scripts
-Basic Bash scripts to help with building up virtual machines or servers with the required software to run.
+This is a collection of scripts to help with building and configuring systems and services on certain systems. The main goal is to have automated scripts for each piece of software used within my setup so systems can be quickly replicated including choice of what software is installed on that system.
 
 ## Instructions to Use
 Each section which follows outlines the instructions for each different section of code these scripts can run.
