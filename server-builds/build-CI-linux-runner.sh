@@ -66,6 +66,15 @@ SprintMilestonePrefix = Sprint
 LabTimeWikiSlug = Lab-time-log
 EOF
 
+# Gitlab-Pair-Programming to construct programming matricies into the wiki
+git clone https://github.com/Nathan-Duckett/Gitlab-Pair-Programming.git
+mv Gitlab-Pair-Programming $HOME/Gitlab-Pair-Programming
+cat << EOF > $HOME/Gitlab-Pair-Programming/config.yaml
+rootURI: https://gitlab.ecs.vuw.ac.nz/api/v4/
+PAT: $PAT
+projectID: $PROJECT_ID
+EOF
+
 # Gitlab-Wiki-Uploader to post this information into the wiki
 git clone https://github.com/Nathan-Duckett/Gitlab-Wiki-Updater.git
 mv Gitlab-Wiki-Updater $HOME/Gitlab-Wiki-Updater
@@ -78,11 +87,16 @@ EOF
 
 # Install dependencies
 pip3 install -r $HOME/GitlabTimeCounter/requirements.txt
+pip3 install -r $HOME/Gitlab-Pair-Programming/requirements.txt
 pip3 install -r $HOME/Gitlab-Wiki-Updater/requirements.txt
 
 # https://stackoverflow.com/questions/4880290/how-do-i-create-a-crontab-through-a-script
 # Set to run at midnight nightly
 (crontab -l 2>/dev/null; echo "0 0 * * * python3 $HOME/GitlabTimeCounter/TimeCounter.py | python3 $HOME/Gitlab-Wiki-Updater/upload.py") | crontab -
+(crontab -l 2>/dev/null; echo "0 0 * * * python3 $HOME/Gitlab-Pair-Programming/track_pairs.py | python3 $HOME/Gitlab-Wiki-Updater/upload.py -s Pair-Programming-Matrix") | crontab -
 
 # Run upload lab times now
 python3 $HOME/GitlabTimeCounter/TimeCounter.py | python3 $HOME/Gitlab-Wiki-Updater/upload.py
+
+# Run upload pair programming matrix now
+python3 $HOME/Gitlab-Pair-Programming/track_pairs.py | python3 $HOME/Gitlab-Wiki-Updater/upload.py -s Pair-Programming-Matrix
