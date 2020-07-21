@@ -76,6 +76,17 @@ function install_language_support () {
     curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash - >/dev/null
     sudo apt install -yqq nodejs >/dev/null 2>/dev/null
 
+    # Configure NodeJS to use local Global install for no root
+    mkdir $HOME/.npm > /dev/null
+    npm config set prefix $HOME/.npm
+    # Add to path to correspond shell RC file
+    if [[ $SHELL == *"zsh"* ]]; then
+    	echo 'export PATH="$HOME/.npm/bin:$PATH"' >> $HOME/.zshrc
+    fi
+    if [[ $SHELL == *"bash"* ]]; then
+	echo 'export PATH="$HOME/.npm/bin:$PATH"' >> $HOME/.bashrc
+    fi
+
     # Adding C/C++ and Ruby support
     sudo apt install gcc gpp make ruby -yqq >/dev/null 2>/dev/null
 }
@@ -213,7 +224,7 @@ if [ "$PYTHON_VERSION" == "" ]; then
 fi
 
 if [ "$NODE_VERSION" == "" ]; then
-    NODE_VERSION="13"
+    NODE_VERSION="14"
 fi
 
 # =====================================
