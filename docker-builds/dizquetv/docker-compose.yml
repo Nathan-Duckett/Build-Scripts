@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  dizquetv:
+    container_name: dizquetv
+    image: vexorian/dizquetv:latest
+    ports:
+      - 8000:8000
+    volumes:
+      - ~/.media-config/dizque:/home/node/app/.dizquetv 
